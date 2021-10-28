@@ -1,0 +1,13 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 5px;
+  border-bottom: 1px solid black;
+}
+.navlink {
+  padding: 10px 0 10px 0;
+}
+.userMenu {
+  margin-left: auto;
+}
