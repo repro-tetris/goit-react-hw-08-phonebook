@@ -21,14 +21,18 @@ const authReducer = createSlice({
       state.isLoggedIn = true;
     },
     logoutUser(state, action) {
-      state.user = initialState.user;
-      state.token = initialState.token;
-      state.isLoggedIn = initialState.isLoggedIn;
+      state.user = { name: null, email: null };
+      state.token = null;
+      state.isLoggedIn = false;
+      state.contacts = [];
     },
     currentUser(state, action) {
-      state.user = action.payload.user;
-      state.token = action.payload.token;
-      state.isLoggedIn = action.payload.isLoggedIn;
+      console.log("action.payload", action.payload);
+
+      state.user.name = action.payload.name;
+      state.user.email = action.payload.email;
+
+      state.isLoggedIn = true;
     },
   },
 });

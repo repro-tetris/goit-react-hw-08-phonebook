@@ -11,6 +11,7 @@ export default function UserMenu() {
   const dispatch = useDispatch();
 
   const closeHandle = async () => {
+    console.log("logout");
     await logout();
     dispatch(logoutUser());
   };

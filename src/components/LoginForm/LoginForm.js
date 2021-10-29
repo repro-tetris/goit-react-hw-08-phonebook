@@ -14,7 +14,7 @@ export default function LoginForm() {
     e.preventDefault();
 
     const { email, password } = e.target;
-    const { data, error } = await login({
+    const { data } = await login({
       email: email.value,
       password: password.value,
     });

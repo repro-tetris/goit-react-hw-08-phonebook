@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Switch, Redirect } from "react-router";
@@ -13,37 +12,53 @@ import PublicRoute from "./components/PublicRoute/PublicRoute";
 import Contacts from "./components/Contacts/Contacts";
 import { useCurrentQuery } from "./redux/auth/auth-slice";
 import { currentUser } from "./redux/auth/auth-reducer";
+import { useEffect } from "react";
 
 export default function App() {
-  const isLoggedIn = useSelector(getIsLoggedIn);
   const dispatch = useDispatch();
-  const { data, isFetching, isSuccess } = useCurrentQuery();
+  const { data, isFetching, isSuccess, isError } = useCurrentQuery();
+  const isLoggedIn = useSelector(getIsLoggedIn);
 
-  console.log("data", data, "isFetching", isFetching, "isSuccess", isSuccess);
+  console.log(
+    "isLoggedIn",
+    isLoggedIn,
+    "data",
+    data,
+    "isFetching",
+    isFetching,
+    "isSuccess",
+    isSuccess,
+    "isError",
+    isError
+  );
 
-  if (isFetching) return <></>;
-
-  if (!isLoggedIn && data) dispatch(currentUser(data));
+  useEffect(() => {
+    if (!isLoggedIn && isSuccess && data) {
+      dispatch(currentUser(data));
+    }
+  }, [data, dispatch, isLoggedIn, isSuccess]);
 
   return (
-    <BrowserRouter>
-      <NavBar />
+    !isFetching && (
+      <BrowserRouter>
+        <NavBar />
 
-      <Switch>
-        <PublicRoute exact path="/" restricted>
-          <HomePage />
-        </PublicRoute>
-        <PublicRoute path="/register" restricted>
-          <RegisterForm />
-        </PublicRoute>
-        <PublicRoute path="/login" restricted>
-          <LoginForm />
-        </PublicRoute>
-        <PrivateRoute isLoggedIn={isLoggedIn} redirectTo="/">
-          {/* <Contacts /> */}
-        </PrivateRoute>
-        <Redirect to="/" />
-      </Switch>
-    </BrowserRouter>
+        <Switch>
+          <PublicRoute exact path="/" restricted>
+            <HomePage />
+          </PublicRoute>
+          <PublicRoute path="/register" restricted>
+            <RegisterForm />
+          </PublicRoute>
+          <PublicRoute path="/login" restricted>
+            <LoginForm />
+          </PublicRoute>
+          <PrivateRoute isLoggedIn={isLoggedIn} redirectTo="/">
+            <Contacts />
+          </PrivateRoute>
+          <Redirect to="/" />
+        </Switch>
+      </BrowserRouter>
+    )
   );
 }

@@ -9,11 +9,11 @@ export const authApi = createApi({
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
       }
-
+      console.log("prepareHeaders token", token);
       return headers;
     },
   }),
-  tagTypes: ["auth"],
+  tagTypes: ["auth", "contacts"],
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (user) => ({
