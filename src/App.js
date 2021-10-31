@@ -11,6 +11,8 @@ import { ContactsView } from "./components/ContactsView/ContactsView";
 import PublicRouter from "./PublicRouter/PublicRouter";
 import { getUserStatus } from "./redux/auth/auth-selectors";
 import HomeView from "./components/HomeView/HomeView";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -38,6 +40,7 @@ export default function App() {
           </PrivateRoute>
         </Switch>
       </Container>
+      <ToastContainer />
     </>
   );
 }
