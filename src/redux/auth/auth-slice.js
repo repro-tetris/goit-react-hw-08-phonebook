@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const STATUS = {
   fetching: "fetching",
@@ -62,6 +63,7 @@ export const createUser = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const { data } = await axios.post("/signup", credentials);
+
       setAxiosToken(data.token);
       return data;
     } catch (error) {
@@ -70,9 +72,19 @@ export const createUser = createAsyncThunk(
   }
 );
 
-const setError = (state, action) => {
+const setError = (state, action, showToast = false) => {
   state.status = STATUS.rejected;
   state.error = action.payload;
+  console.log("setError", action.payload);
+  if (showToast)
+    toast.error(action.payload, {
+      position: "top-center",
+      autoClose: 5000,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
 };
 
 const authSlice = createSlice({
@@ -102,7 +114,9 @@ const authSlice = createSlice({
     [loginUser.pending](state, action) {
       state.status = STATUS.logging;
     },
-    [loginUser.rejected]: setError,
+    [loginUser.rejected](state, action) {
+      setError(state, action, true);
+    },
     [logoutUser.fulfilled](state, action) {
       state.user = { name: null, email: null };
       state.token = null;
@@ -116,7 +130,9 @@ const authSlice = createSlice({
     [createUser.pending](state, action) {
       state.status = STATUS.logging;
     },
-    [createUser.rejected]: setError,
+    [createUser.rejected](state, action) {
+      setError(state, action, true);
+    },
   },
 });
 
