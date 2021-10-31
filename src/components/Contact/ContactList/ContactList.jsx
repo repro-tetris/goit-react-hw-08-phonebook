@@ -2,6 +2,7 @@ import { ContactItem } from "../../Contact";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useGetContactsQuery } from "../../../redux/contactsSlice";
+import { Grid } from "@mui/material";
 
 const ContactList = () => {
   const filter = useSelector((state) => state.filter);
@@ -18,11 +19,11 @@ const ContactList = () => {
   return (
     <div>
       {isFetching && <p>Loading...</p>}
-      <ul>
+      <Grid container spacing={2} p={2}>
         {filteredContacts.map((contact) => {
           return <ContactItem key={contact.id} contact={contact} />;
         })}
-      </ul>
+      </Grid>
     </div>
   );
 };
