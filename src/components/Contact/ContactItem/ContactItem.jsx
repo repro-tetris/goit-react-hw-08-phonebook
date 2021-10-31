@@ -1,18 +1,40 @@
 import PropTypes from "prop-types";
-import { StyledContact } from "./ContactItem.styled";
+
 import { useDelContactMutation } from "../../../redux/contactsSlice";
+import {
+  Card,
+  CardContent,
+  Typography,
+  CardActions,
+  Button,
+} from "@mui/material";
 function ContactItem({ contact: { id, name, number } }) {
   const [deleteContact, { isLoading: isDeleting }] = useDelContactMutation();
 
   const deleteHandle = () => deleteContact(id);
 
   return (
-    <StyledContact>
-      {name}: {number}
-      <button onClick={deleteHandle} disabled={isDeleting}>
-        {isDeleting ? "deleting..." : "delete"}{" "}
-      </button>
-    </StyledContact>
+    <Card sx={{ minWidth: 275, p: 2, m: 1 }}>
+      <CardContent>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          name
+        </Typography>
+        <Typography variant="h6" component="div">
+          {name}
+        </Typography>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          number
+        </Typography>
+        <Typography variant="h6" component="div">
+          {number}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small" onClick={deleteHandle} disabled={isDeleting}>
+          {isDeleting ? "deleting..." : "DELETE"}
+        </Button>
+      </CardActions>
+    </Card>
   );
 }
 

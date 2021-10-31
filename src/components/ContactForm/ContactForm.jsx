@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Label } from "./ContactForm.styled";
 import { useAddContactMutation } from "../../redux/contactsSlice";
+import { Button, Stack, TextField } from "@mui/material";
 
 function ContactForm() {
   const [name, setName] = useState("");
@@ -17,6 +17,7 @@ function ContactForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     addContact({ name, number });
     reset();
   };
@@ -27,38 +28,36 @@ function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Label>
-        Name
-        <input
-          type="text"
-          name="name"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
-          required
-          onChange={handleChange}
-          value={name}
-        />
-      </Label>
+    <Stack
+      spacing={2}
+      component="form"
+      sx={{ p: 2, border: "1px dashed grey", mt: 2 }}
+      onSubmit={handleSubmit}
+    >
+      <TextField
+        name="name"
+        label="Name"
+        type="text"
+        required
+        onChange={handleChange}
+      />
+      <TextField
+        name="number"
+        label="Number"
+        type="tel"
+        required
+        onChange={handleChange}
+      />
 
-      <Label>
-        Number
-        <input
-          type="tel"
-          name="number"
-          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-          title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
-          required
-          onChange={handleChange}
-          value={number}
-        />
-      </Label>
-      <input
+      <Button
+        color="secondary"
+        variant="contained"
         disabled={isAdding}
         type="submit"
-        value={isAdding ? "Adding contact..." : "Add contact"}
-      />
-    </form>
+      >
+        {isAdding ? "Adding contact..." : "Add contact"}
+      </Button>
+    </Stack>
   );
 }
 
