@@ -2,12 +2,12 @@ import { AppBar, Button, Stack, Toolbar, Typography } from "@mui/material";
 
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { getUserStatus } from "../../redux/auth/auth-selectors";
 import { STATUS } from "../../redux/auth/auth-slice";
 import UserMenu from "../UserMenu/UserMenu";
 
 export const Header = () => {
-  const isLogged =
-    useSelector((state) => state.auth.status) === STATUS.fulfilled;
+  const isLogged = useSelector(getUserStatus) === STATUS.fulfilled;
   return (
     <AppBar position="static">
       <Toolbar>

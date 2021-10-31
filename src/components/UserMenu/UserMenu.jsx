@@ -1,9 +1,10 @@
 import { Button, Typography, Stack } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
+import { getUserEmail } from "../../redux/auth/auth-selectors";
 import { logoutUser } from "../../redux/auth/auth-slice";
 
 export default function UserMenu() {
-  const email = useSelector((store) => store.auth.user.email);
+  const email = useSelector(getUserEmail);
   const dispatch = useDispatch();
 
   const onClickHandle = (e) => {
